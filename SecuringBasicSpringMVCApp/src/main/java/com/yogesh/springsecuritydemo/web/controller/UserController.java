@@ -21,12 +21,12 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    //
-
     @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    // API
 
     @RequestMapping
     public ModelAndView list() {
@@ -39,11 +39,6 @@ public class UserController {
         return new ModelAndView("users/view", "user", user);
     }
 
-    @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(@ModelAttribute User user) {
-        return "users/form";
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView create(@Valid User user, BindingResult result, RedirectAttributes redirect) {
         if (result.hasErrors()) {
@@ -52,11 +47,6 @@ public class UserController {
         user = this.userRepository.save(user);
         redirect.addFlashAttribute("globalMessage", "Successfully created a new user");
         return new ModelAndView("redirect:/{user.id}", "user.id", user.getId());
-    }
-
-    @RequestMapping("foo")
-    public String foo() {
-        throw new RuntimeException("Expected exception in controller");
     }
 
     @RequestMapping(value = "delete/{id}")
@@ -68,6 +58,13 @@ public class UserController {
     @RequestMapping(value = "modify/{id}", method = RequestMethod.GET)
     public ModelAndView modifyForm(@PathVariable("id") User user) {
         return new ModelAndView("users/form", "user", user);
+    }
+
+    // the form
+
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public String createForm(@ModelAttribute User user) {
+        return "users/form";
     }
 
 }

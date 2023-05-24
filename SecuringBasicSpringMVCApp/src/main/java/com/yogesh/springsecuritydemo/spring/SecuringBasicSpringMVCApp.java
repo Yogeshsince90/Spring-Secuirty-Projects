@@ -17,28 +17,27 @@ import com.yogesh.springsecuritydemo.web.model.User;
 @ComponentScan("com.yogesh.springsecuritydemo.web")
 public class SecuringBasicSpringMVCApp {
 
-    @Bean
-    public UserRepository userRepository() {
-        return new InMemoryUserRepository();
-    }
+	 @Bean
+	    public UserRepository userRepository() {
+	        return new InMemoryUserRepository();
+	    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	    @Bean
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 
-    @Bean
-    public Converter<String, User> messageConverter() {
-        return new Converter<String, User>() {
-            @Override
-            public User convert(String id) {
-                return userRepository().findUser(Long.valueOf(id));
-            }
-        };
-    }
+	    @Bean
+	    public Converter<String, User> messageConverter() {
+	        return new Converter<String, User>() {
+	            @Override
+	            public User convert(String id) {
+	                return userRepository().findUser(Long.valueOf(id));
+	            }
+	        };
+	    }
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(new Class[] { SecuringBasicSpringMVCApp.class, SecurityConfig.class }, args);
-    }
-
+	    public static void main(String[] args) throws Exception {
+	        SpringApplication.run(new Class[] { SecuringBasicSpringMVCApp.class, SecurityConfig.class }, args);
+	    }
 }
